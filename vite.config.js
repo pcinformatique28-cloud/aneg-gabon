@@ -3,6 +3,8 @@ import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
 
 export default defineConfig({
+  base: '/aneg-gabon/',
+  base: '/aneg-gabon/',
   plugins: [
     react(),
     VitePWA({
@@ -11,13 +13,13 @@ export default defineConfig({
         name: 'ANEG – Annuaire National des Églises du Gabon',
         short_name: 'ANEG',
         lang: 'fr',
-        start_url: '/',
+        start_url: '/aneg-gabon/',
         display: 'standalone',
         theme_color: '#00317d',
         background_color: '#ffffff',
         icons: [
-          { src: '/icons/icon-192.png', sizes: '192x192', type: 'image/png' },
-          { src: '/icons/icon-512.png', sizes: '512x512', type: 'image/png' },
+          { src: 'icons/icon-192.png', sizes: '192x192', type: 'image/png' },
+          { src: 'icons/icon-512.png', sizes: '512x512', type: 'image/png' },
         ],
       },
     }),
