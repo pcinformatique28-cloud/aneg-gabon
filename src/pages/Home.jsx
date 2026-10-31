@@ -1,19 +1,19 @@
-import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useMemo, useRef, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { useChurches } from '../hooks/useChurches'
 import ChurchCard from '../components/ChurchCard'
-import { IconSearch, IconChurch, IconPin, IconCalendar } from '../components/Icons'
+import SearchBox from '../components/SearchBox'
+import { matches } from '../utils/search'
+import { IconChurch, IconPin, IconCalendar } from '../components/Icons'
 
 const LOGO = `${import.meta.env.BASE_URL}aneg-logo.png`
 
 export default function Home() {
-  const { churches } = useChurches()
+  const { churches, loading } = useChurches()
   const [q, setQ] = useState('')
-  const navigate = useNavigate()
-  const chercher = (e) => {
-    e.preventDefault()
-    navigate(q.trim() ? `/annuaire?q=${encodeURIComponent(q.trim())}` : '/annuaire')
-  }
+  const liste = useRef(null)
+  const resultats = useMemo(() => churches.filter((c) => matches(c, q)), [churches, q])
+  const aller = () => liste.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
 
   return (
     <div className="stack center">
@@ -21,17 +21,7 @@ export default function Home() {
       <h1 className="title">Annuaire National des Églises du Gabon</h1>
       <p className="slogan">Référencer · Informer · Connecter</p>
 
-      <form className="searchbar" onSubmit={chercher} role="search">
-        <IconSearch size={20} />
-        <input
-          type="search"
-          value={q}
-          onChange={(e) => setQ(e.target.value)}
-          placeholder="Rechercher une église…"
-          aria-label="Rechercher une église"
-        />
-        <button className="btn success" type="submit">Chercher</button>
-      </form>
+      <SearchBox value={q} onChange={setQ} onSubmit={aller} churches={churches} />
 
       <div className="stats-row">
         <div><b>{churches.length}</b><span>lieux de culte</span></div>
@@ -45,10 +35,14 @@ export default function Home() {
         <Link to="/agenda" className="tile"><IconCalendar size={28} /><b>Agenda</b><span>Cultes, conférences, séminaires et croisades.</span></Link>
       </div>
 
-      <section className="section left">
-        <div className="section-head"><h2>À Libreville, Akanda et Owendo</h2><Link to="/annuaire">Tout voir</Link></div>
+      <section className="section left" ref={liste}>
+        <div className="section-head">
+          <h2>{q.trim() ? 'Résultats' : 'Toutes les églises'} ({loading ? '…' : resultats.length})</h2>
+          <Link to="/annuaire">Annuaire</Link>
+        </div>
         <div className="list">
-          {churches.slice(0, 4).map((c) => <ChurchCard key={c.id} church={c} />)}
+          {resultats.map((c) => <ChurchCard key={c.id} church={c} />)}
+          {!loading && !resultats.length && <p className="empty">Aucune église ne correspond à cette recherche.</p>}
         </div>
       </section>
     </div>

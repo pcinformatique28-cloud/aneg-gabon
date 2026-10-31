@@ -1,9 +1,9 @@
 import { useMemo } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { norm } from '../data/churches'
 import { useChurches } from '../hooks/useChurches'
 import ChurchCard from '../components/ChurchCard'
-import { IconSearch } from '../components/Icons'
+import SearchBox from '../components/SearchBox'
+import { matches } from '../utils/search'
 
 export default function Directory() {
   const { churches, loading, error } = useChurches()
@@ -21,23 +21,16 @@ export default function Directory() {
   const communes = useMemo(() => [...new Set(churches.map((c) => c.commune).filter(Boolean))].sort(), [churches])
   const denoms = useMemo(() => [...new Set(churches.map((c) => c.denomination).filter(Boolean))].sort(), [churches])
 
-  const resultats = useMemo(() => {
-    const n = norm(q)
-    return churches.filter((c) =>
-      (!commune || c.commune === commune) &&
-      (!denom || c.denomination === denom) &&
-      (!n || norm(`${c.nom} ${c.lieu} ${c.commune} ${c.denomination}`).includes(n)),
-    )
-  }, [churches, q, commune, denom])
+  const resultats = useMemo(
+    () => churches.filter((c) => (!commune || c.commune === commune) && (!denom || c.denomination === denom) && matches(c, q)),
+    [churches, q, commune, denom],
+  )
 
   return (
     <div className="stack">
       <h1 className="h1">Annuaire des églises</h1>
 
-      <label className="searchbar single">
-        <IconSearch size={20} />
-        <input type="search" value={q} onChange={(e) => set('q', e.target.value)} placeholder="Nom, quartier, dénomination…" aria-label="Rechercher" />
-      </label>
+      <SearchBox single button={false} value={q} onChange={(v) => set('q', v)} churches={churches} />
 
       <div className="filters">
         <select value={commune} onChange={(e) => set('commune', e.target.value)} aria-label="Commune">
