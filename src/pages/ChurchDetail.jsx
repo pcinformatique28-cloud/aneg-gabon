@@ -4,6 +4,10 @@ import { getChurch, itineraire } from '../data/churches'
 import { fetchChurch } from '../services/store'
 import { STATUTS } from '../data/refs'
 import { IconNavigate, IconPin } from '../components/Icons'
+import { useAuth } from '../context/AuthContext'
+import QrCode from '../components/QrCode'
+import { codeEglise, codeDirigeant, appUrl } from '../utils/ids'
+import { avatarUrl } from '../cloudinary'
 
 const Text = ({ children }) => (children ? <p className="just">{children}</p> : null)
 
@@ -96,7 +100,7 @@ function Rich({ c }) {
       <section className="panel wide">
         <h2>Organisation</h2>
         <dl className="dl">
-          {c.autorite?.nom && <><dt>{c.autorite.titre || 'Autorité dirigeante'}</dt><dd>{c.autorite.nom}</dd></>}
+          {c.autorite?.nom && <><dt>{c.autorite.titre || 'Autorité dirigeante'}</dt><dd>{c.autorite.photoUrl && <img className="mini-photo" src={avatarUrl(c.autorite.photoUrl, 96)} alt="" />} {c.autorite.nom} <span className="id-chip">{codeDirigeant(c.id, c.autorite.nom)}</span></dd></>}
           {c.nbParoisses != null && <><dt>Paroisses et annexes</dt><dd>{c.nbParoisses}</dd></>}
           {c.effectif != null && <><dt>Fidèles (approx.)</dt><dd>{c.effectif}</dd></>}
         </dl>
@@ -113,7 +117,7 @@ function Rich({ c }) {
           <p className="hint">Par lieu de culte : {Object.entries(parLieu).map(([l, n]) => `${l} (${n})`).join(' · ')}</p>
           {ministres.map((m, i) => (
             <div className="minister" key={i}>
-              <h3>{m.nom}</h3>
+              <div className="min-head">{m.photoUrl && <img className="mini-photo" src={avatarUrl(m.photoUrl, 96)} alt="" />}<div><h3>{m.nom}</h3><span className="id-chip">{codeDirigeant(c.id, m.nom)}</span></div></div>
               <p className="muted">{[m.titre, m.lieu, m.debutMinistere ? `ministère depuis ${m.debutMinistere}` : ''].filter(Boolean).join(' · ')}</p>
               <Text>{m.bio}</Text>
               {(m.dateOrdination || m.autoriteOrdinante) && (
@@ -149,6 +153,7 @@ function Rich({ c }) {
 
 export default function ChurchDetail() {
   const { id } = useParams()
+  const { user, isAdmin } = useAuth()
   const seed = getChurch(id)
   const [remote, setRemote] = useState(null)
   const [state, setState] = useState(seed ? 'ok' : 'loading')
@@ -177,6 +182,7 @@ export default function ChurchDetail() {
   const nom = seed ? seed.nom : remote.nomOfficiel
   const denom = seed ? seed.denomination : remote.famille
   const statut = seed ? seed.statut : STATUTS[remote.status] || 'Référencée'
+  const canExpand = !!user && (isAdmin || (!seed && remote?.ownerUid === user.uid))
 
   return (
     <div className="stack">
@@ -191,6 +197,7 @@ export default function ChurchDetail() {
         <span className="tag">{statut}</span>
       </div>
       {!seed && <Link className="btn primary block" to={`/eglise/${id}/calendrier`}>Voir le calendrier annuel de cette église</Link>}
+      <section className="panel wide id-panel"><h2>Identité ANEG</h2><div className="id-row"><div className="id-qr"><QrCode url={appUrl(`eglise/${id}`)} title={nom} code={codeEglise(id)} canExpand={canExpand} size={110} /></div><p className="hint">Scannez avec l’appareil photo pour ouvrir cette fiche.{canExpand ? ' Touchez le QR pour l’agrandir et l’imprimer.' : ''}</p></div></section>
       {seed ? <Seed c={seed} /> : <Rich c={remote} />}
     </div>
   )

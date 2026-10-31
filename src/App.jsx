@@ -1,3 +1,4 @@
+import QrApp from './pages/QrApp.jsx'
 import { Route, Routes } from 'react-router-dom'
 import Layout from './components/Layout'
 import Home from './pages/Home'
@@ -24,6 +25,7 @@ export default function App() {
         <Route path="agenda" element={<Agenda />} />
         <Route path="eglise/:id/calendrier" element={<ChurchCalendar />} />
         <Route path="statistiques" element={<Stats />} />
+        <Route path="qr" element={<QrApp />} />
         <Route path="a-propos" element={<About />} />
         <Route path="connexion" element={<Login />} />
         <Route path="profil" element={<Profile />} />

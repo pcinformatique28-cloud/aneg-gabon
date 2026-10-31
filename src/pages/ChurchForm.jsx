@@ -3,7 +3,7 @@ import { Link, Navigate, useNavigate, useParams } from 'react-router-dom'
 import { serverTimestamp } from 'firebase/firestore'
 import { useAuth } from '../context/AuthContext'
 import { fetchChurch, saveChurch } from '../services/store'
-import { uploadImage } from '../cloudinary'
+import { uploadImage, avatarUrl } from '../cloudinary'
 import { Area, Block, Chips, Field, Input, Repeater, Select } from '../components/FormBits'
 import AttachDoc from '../components/AttachDoc'
 import { IconLocate, IconCheck } from '../components/Icons'
@@ -36,7 +36,7 @@ const mergeData = (base, extra) => ({
 
 const blankMinistre = () => ({
   nom: '', titre: '', lieu: 'Siège', debutMinistere: '', dateOrdination: '', autoriteOrdinante: '',
-  langues: [], bio: '', formations: [], statutVerif: 'declare',
+  langues: [], bio: '', formations: [], statutVerif: 'declare', photoUrl: '',
 })
 const blankFormation = () => ({ niveau: '', intitule: '', etablissement: '', pays: 'Gabon', annee: '', diplome: '' })
 
@@ -278,8 +278,16 @@ export default function ChurchForm() {
 
       {step === 5 && (
         <Block title="Ministres et prédicateurs" intro="Pour chaque ministre en fonction : lieu de culte, biographie, ordination et cursus de formation. Ces informations sont affichées comme « déclarées » tant que l’équipe ANEG n’a pas vérifié les documents.">
+          <Field label="Photo d’identité du responsable (visible par les visiteurs)">
+            {f.autorite?.photoUrl && <img className="mini-photo" src={avatarUrl(f.autorite.photoUrl, 96)} alt="" />}
+            <input type="file" accept="image/*" onChange={async (e) => { const file = e.target.files?.[0]; e.target.value = ''; if (!file) return; try { up({ autorite: { ...f.autorite, photoUrl: await uploadImage(file, 'aneg/equipe') } }) } catch (ex) { setErr(ex.message) } }} />
+          </Field>
           <Repeater items={f.ministres} onChange={(v) => up({ ministres: v })} blank={blankMinistre} addLabel="Ajouter un ministre ou prédicateur" itemLabel="Ministre"
             render={(m, patch) => (<>
+              <Field label="Photo d’identité">
+                {m.photoUrl && <img className="mini-photo" src={avatarUrl(m.photoUrl, 96)} alt="" />}
+                <input type="file" accept="image/*" onChange={async (e) => { const file = e.target.files?.[0]; e.target.value = ''; if (!file) return; try { patch({ photoUrl: await uploadImage(file, 'aneg/equipe') }) } catch (ex) { setErr(ex.message) } }} />
+              </Field>
               <Field label="Nom et prénoms" req><Input value={m.nom} onChange={(e) => patch({ nom: e.target.value })} /></Field>
               <Field label="Titre ou fonction" req><Select options={TITRES_MINISTERE} value={m.titre} onChange={(e) => patch({ titre: e.target.value })} /></Field>
               <Field label="Lieu de culte où il exerce"><Select options={lieux} placeholder="Siège" value={m.lieu} onChange={(e) => patch({ lieu: e.target.value })} /></Field>
