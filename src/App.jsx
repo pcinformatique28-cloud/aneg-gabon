@@ -10,7 +10,8 @@ import ChurchForm from './pages/ChurchForm'
 import Admin from './pages/Admin'
 import Agenda from './pages/Agenda'
 import ChurchCalendar from './pages/ChurchCalendar'
-import { Stats, About } from './pages/Simple'
+import Stats from './pages/Stats'
+import { About } from './pages/Simple'
 
 export default function App() {
   return (

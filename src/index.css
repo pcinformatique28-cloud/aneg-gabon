@@ -330,3 +330,29 @@ input[type="file"].inp { padding: 10px; min-height: 0; }
 .tl-fete td, .tl-fete th { background: #fff8dc !important; }
 .chip { display: block; width: 100%; margin: 0 0 4px; padding: 4px 7px; border: 0; border-radius: 8px; color: #fff; font: inherit; font-size: .74rem; text-align: left; cursor: pointer; }
 .chip.fete { background: #f5c400; color: #0a2a6b; font-weight: 700; cursor: default; }
+
+/* Statistiques */
+.st-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; }
+.st-cards div { background: #fff; border: 1px solid #d6dff0; border-radius: 14px; padding: 12px; text-align: center; display: grid; gap: 2px; }
+.st-cards b { font-size: 1.6rem; color: #0a3a8a; }
+.st-cards span { font-size: .82rem; color: #5b6b8c; }
+.st-donut { display: grid; gap: 12px; justify-items: center; }
+.st-donut svg { width: 190px; height: 190px; }
+.st-total { font-size: 7px; font-weight: 800; fill: #0a2a6b; }
+.st-legend { list-style: none; margin: 0; padding: 0; width: 100%; display: grid; gap: 6px; }
+.st-legend li { display: flex; align-items: center; gap: 8px; color: #0a2a6b; }
+.st-legend i { width: 12px; height: 12px; border-radius: 50%; flex: none; }
+.st-legend b { margin-left: auto; }
+.st-legend small { color: #5b6b8c; min-width: 42px; text-align: right; }
+.st-sub { margin-top: 16px; }
+.st-tablewrap { overflow-x: auto; }
+.st-table { width: 100%; border-collapse: collapse; font-size: .9rem; }
+.st-table th, .st-table td { padding: 8px 6px; border-bottom: 1px solid #eef2fa; text-align: right; }
+.st-table th:first-child, .st-table td:first-child { text-align: left; }
+.st-table thead th { color: #5b6b8c; font-weight: 600; }
+.st-sum td { font-weight: 800; color: #0a2a6b; background: #f2f6ff; }
+.vb { display: flex; gap: 4px; height: 170px; align-items: stretch; }
+.vb-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: .68rem; color: #5b6b8c; min-width: 0; }
+.vb-col b { height: 14px; color: #0a2a6b; }
+.vb-bar { flex: 1; width: 100%; display: flex; align-items: flex-end; }
+.vb-bar i { width: 100%; background: #0a63c9; border-radius: 6px 6px 0 0; min-height: 2px; }
