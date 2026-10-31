@@ -391,3 +391,9 @@ input[type="file"].inp { padding: 10px; min-height: 0; }
 /* 'sticky' cesse de fonctionner dès qu'un parent coupe le défilement ; 'fixed' reste en place. */
 .topbar { position: fixed; top: 0; left: 0; right: 0; z-index: 30; }
 .shell { padding-top: calc(var(--top-h, 64px) + 5px); }
+
+/* en-tete : loupe entre menu et logo */
+.topbar .topbar-row{display:flex;flex-wrap:nowrap;align-items:center;gap:2px}
+.topbar .topbar-row>.icon-btn{flex:0 0 auto}
+.topbar .topbar-row .brand{margin-right:auto;min-width:0;flex:0 1 auto}
+.topbar .right-cluster{flex:0 0 auto;margin-left:auto;display:flex;align-items:center;gap:2px}
