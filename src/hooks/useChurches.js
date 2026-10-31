@@ -19,6 +19,7 @@ export function toCard(c) {
     precision: 'gps',
     statut: STATUTS[c.status] || 'Référencée',
     remote: true,
+    logoUrl: c.logoUrl || '',
   }
 }
 

@@ -6,6 +6,7 @@ import { STATUTS } from '../data/refs'
 import { IconNavigate, IconPin } from '../components/Icons'
 import { useAuth } from '../context/AuthContext'
 import QrCode from '../components/QrCode'
+import Thumb from '../components/Thumb'
 import { codeEglise, codeDirigeant, appUrl } from '../utils/ids'
 import { avatarUrl } from '../cloudinary'
 
@@ -38,7 +39,7 @@ function Seed({ c }) {
   )
 }
 
-function Rich({ c }) {
+export function Rich({ c }) {
   const s = c.siege || {}
   const hasGps = Number.isFinite(parseFloat(s.lat)) && Number.isFinite(parseFloat(s.lng))
   const route = hasGps ? `https://www.google.com/maps/dir/?api=1&destination=${s.lat},${s.lng}` : null
@@ -100,7 +101,7 @@ function Rich({ c }) {
       <section className="panel wide">
         <h2>Organisation</h2>
         <dl className="dl">
-          {c.autorite?.nom && <><dt>{c.autorite.titre || 'Autorité dirigeante'}</dt><dd>{c.autorite.photoUrl && <img className="mini-photo" src={avatarUrl(c.autorite.photoUrl, 96)} alt="" />} {c.autorite.nom} <span className="id-chip">{codeDirigeant(c.id, c.autorite.nom)}</span></dd></>}
+          {c.autorite?.nom && <><dt>{c.autorite.titre || 'Autorité dirigeante'}</dt><dd><div className="person-row"><Thumb src={c.autorite.photoUrl} kind="person" /><div><b>{c.autorite.nom}</b><br /><span className="id-chip">{codeDirigeant(c.id, c.autorite.nom)}</span></div></div></dd></>}
           {c.nbParoisses != null && <><dt>Paroisses et annexes</dt><dd>{c.nbParoisses}</dd></>}
           {c.effectif != null && <><dt>Fidèles (approx.)</dt><dd>{c.effectif}</dd></>}
         </dl>
@@ -117,7 +118,7 @@ function Rich({ c }) {
           <p className="hint">Par lieu de culte : {Object.entries(parLieu).map(([l, n]) => `${l} (${n})`).join(' · ')}</p>
           {ministres.map((m, i) => (
             <div className="minister" key={i}>
-              <div className="min-head">{m.photoUrl && <img className="mini-photo" src={avatarUrl(m.photoUrl, 96)} alt="" />}<div><h3>{m.nom}</h3><span className="id-chip">{codeDirigeant(c.id, m.nom)}</span></div></div>
+              <div className="min-head"><Thumb src={m.photoUrl} kind="person" /><div><h3>{m.nom}</h3><span className="id-chip">{codeDirigeant(c.id, m.nom)}</span></div></div>
               <p className="muted">{[m.titre, m.lieu, m.debutMinistere ? `ministère depuis ${m.debutMinistere}` : ''].filter(Boolean).join(' · ')}</p>
               <Text>{m.bio}</Text>
               {(m.dateOrdination || m.autoriteOrdinante) && (

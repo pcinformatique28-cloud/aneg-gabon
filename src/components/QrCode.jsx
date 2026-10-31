@@ -10,10 +10,10 @@ export default function QrCode({ url, title = 'ANEG', code = '', canExpand = fal
 
   useEffect(() => {
     let ok = true
-    QRCode.toDataURL(url, { margin: 2, width: 1024, errorCorrectionLevel: 'M' })
+    QRCode.toDataURL(url, { margin: canExpand ? 2 : 1, width: canExpand ? 1024 : 300, errorCorrectionLevel: 'M' })
       .then((d) => { if (ok) setSrc(d) })
     return () => { ok = false }
-  }, [url])
+  }, [url, canExpand])
 
   const fname = esc(code || title).replace(/\s+/g, '-')
 

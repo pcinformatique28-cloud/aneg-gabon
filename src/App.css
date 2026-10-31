@@ -205,3 +205,28 @@
 .rp-table{width:100%;border-collapse:collapse;margin-bottom:6px}
 .rp-table td{border-bottom:1px solid #e3e8f3;padding:5px 4px}
 .rp-table .n{text-align:right;font-weight:700;color:#0b2e7a}
+
+/* Mise en page : blocs justifiés, titres et boutons centrés */
+html{hyphens:auto}
+.panel p,.hint,.just{text-align:justify;text-justify:inter-word;text-wrap:pretty;hyphens:auto}
+.panel h2,.panel h3.sub,.panel h4.sub,.h1,.back-center{text-align:center;justify-content:center}
+.panel h2{display:flex;align-items:center;gap:8px}
+.detail-head{display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center}
+.detail-head .h1{margin:0}
+.tags{justify-content:center}
+.btn{display:inline-flex;align-items:center;justify-content:center;text-align:center;gap:8px}
+.btn.block{display:flex;width:100%}
+.btn-row{display:flex;flex-wrap:wrap;justify-content:center;gap:10px}
+.id-panel .id-row{flex-direction:column;text-align:center}
+.id-panel .hint{text-align:center}
+/* Cartes de l'annuaire */
+.church-card-top{display:flex;align-items:center;gap:10px}
+.card-name{flex:1;min-width:0}
+.card-qr{flex:none}
+.card-qr .qr-thumb{padding:2px;border-radius:8px}
+.card-qr .qr-code{display:none}
+/* Avatars */
+.person-row{display:flex;align-items:center;gap:10px}
+.thumb-ph{display:inline-flex;align-items:center;justify-content:center;background:#e8eefb;overflow:hidden}
+.thumb-ph svg{width:68%;height:68%;fill:#7f93bd}
+.minister{text-align:left}
