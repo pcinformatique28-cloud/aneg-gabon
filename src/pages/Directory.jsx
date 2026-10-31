@@ -1,10 +1,12 @@
 import { useMemo } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { CHURCHES, COMMUNES, DENOMINATIONS, norm } from '../data/churches'
+import { norm } from '../data/churches'
+import { useChurches } from '../hooks/useChurches'
 import ChurchCard from '../components/ChurchCard'
 import { IconSearch } from '../components/Icons'
 
 export default function Directory() {
+  const { churches, loading } = useChurches()
   const [params, setParams] = useSearchParams()
   const q = params.get('q') || ''
   const commune = params.get('commune') || ''
@@ -16,14 +18,17 @@ export default function Directory() {
     setParams(next, { replace: true })
   }
 
+  const communes = useMemo(() => [...new Set(churches.map((c) => c.commune).filter(Boolean))].sort(), [churches])
+  const denoms = useMemo(() => [...new Set(churches.map((c) => c.denomination).filter(Boolean))].sort(), [churches])
+
   const resultats = useMemo(() => {
     const n = norm(q)
-    return CHURCHES.filter((c) =>
+    return churches.filter((c) =>
       (!commune || c.commune === commune) &&
       (!denom || c.denomination === denom) &&
       (!n || norm(`${c.nom} ${c.lieu} ${c.commune} ${c.denomination}`).includes(n)),
     )
-  }, [q, commune, denom])
+  }, [churches, q, commune, denom])
 
   return (
     <div className="stack">
@@ -37,18 +42,18 @@ export default function Directory() {
       <div className="filters">
         <select value={commune} onChange={(e) => set('commune', e.target.value)} aria-label="Commune">
           <option value="">Toutes les communes</option>
-          {COMMUNES.map((c) => <option key={c}>{c}</option>)}
+          {communes.map((c) => <option key={c}>{c}</option>)}
         </select>
         <select value={denom} onChange={(e) => set('denom', e.target.value)} aria-label="Dénomination">
           <option value="">Toutes les dénominations</option>
-          {DENOMINATIONS.map((d) => <option key={d}>{d}</option>)}
+          {denoms.map((d) => <option key={d}>{d}</option>)}
         </select>
       </div>
 
-      <p className="muted">{resultats.length} résultat{resultats.length > 1 ? 's' : ''}</p>
+      <p className="muted">{loading ? 'Chargement…' : `${resultats.length} résultat${resultats.length > 1 ? 's' : ''}`}</p>
       <div className="list">
         {resultats.map((c) => <ChurchCard key={c.id} church={c} />)}
-        {!resultats.length && <p className="empty">Aucune église ne correspond à cette recherche.</p>}
+        {!loading && !resultats.length && <p className="empty">Aucune église ne correspond à cette recherche.</p>}
       </div>
     </div>
   )

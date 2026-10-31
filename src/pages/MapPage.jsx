@@ -3,7 +3,8 @@ import { Link, useSearchParams } from 'react-router-dom'
 import { MapContainer, TileLayer, Marker, Popup, CircleMarker, useMap } from 'react-leaflet'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
-import { CHURCHES, DENOM_COLORS, distanceKm, itineraire } from '../data/churches'
+import { DENOM_COLORS, distanceKm, itineraire } from '../data/churches'
+import { useChurches } from '../hooks/useChurches'
 import { IconLocate } from '../components/Icons'
 
 const pin = (color) =>
@@ -24,12 +25,13 @@ function Fly({ target }) {
 }
 
 export default function MapPage() {
+  const { churches } = useChurches()
   const [params] = useSearchParams()
-  const focus = CHURCHES.find((c) => c.id === params.get('focus'))
+  const focus = churches.find((c) => c.id === params.get('focus'))
   const [me, setMe] = useState(null)
   const [msg, setMsg] = useState('')
   const [target, setTarget] = useState(focus && focus.lat != null ? [focus.lat, focus.lng] : null)
-  const places = useMemo(() => CHURCHES.filter((c) => c.lat != null), [])
+  const places = useMemo(() => churches.filter((c) => c.lat != null), [churches])
 
   const proches = useMemo(() => {
     if (!me) return []

@@ -1,0 +1,73 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() { return request.auth != null; }
+
+    // Administrateur : adresse e-mail vérifiée du propriétaire de PC-INFORMATIQUE.
+    function isAdmin() {
+      return signedIn()
+        && request.auth.token.email == 'pcinformatique28@gmail.com'
+        && request.auth.token.email_verified == true;
+    }
+    function isMod() {
+      return signedIn()
+        && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role in ['moderateur', 'admin'];
+    }
+
+    match /users/{uid} {
+      allow read: if signedIn() && (request.auth.uid == uid || isAdmin());
+      allow create: if signedIn() && request.auth.uid == uid
+                    && request.resource.data.role == 'utilisateur';
+      allow update: if signedIn() && (
+        (request.auth.uid == uid && request.resource.data.role == resource.data.role)
+        || isAdmin());
+      allow delete: if isAdmin();
+    }
+
+    // Fiches d'églises : l'identifiant du document est l'uid du compte propriétaire.
+    match /churches/{churchId} {
+      allow get: if isAdmin()
+                 || (signedIn() && churchId == request.auth.uid)
+                 || resource.data.visible == true;
+      allow list: if isAdmin() || isMod() || resource.data.visible == true;
+
+      allow create: if signedIn()
+                    && churchId == request.auth.uid
+                    && request.resource.data.ownerUid == request.auth.uid
+                    && request.resource.data.status == 'en_attente'
+                    && request.resource.data.visible == false;
+
+      allow update: if isAdmin()
+                    || (signedIn()
+                        && resource.data.ownerUid == request.auth.uid
+                        && request.resource.data.ownerUid == resource.data.ownerUid
+                        && !request.resource.data.diff(resource.data).affectedKeys()
+                             .hasAny(['status', 'visible', 'adminNote', 'verifiedAt']));
+
+      allow delete: if isAdmin();
+    }
+
+    // Documents administratifs : jamais publics.
+    match /documents/{id} {
+      allow read: if isAdmin() || (signedIn() && resource.data.ownerUid == request.auth.uid);
+      allow create: if isAdmin()
+                    || (signedIn()
+                        && request.resource.data.ownerUid == request.auth.uid
+                        && request.resource.data.status == 'depose'
+                        && request.resource.data.archived == false);
+      allow update, delete: if isAdmin();
+    }
+
+    // Modèles et formats officiels recommandés : lecture pour tous, écriture admin.
+    match /formats/{id} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /{col}/{id} {
+      allow read: if col in ['places', 'denominations', 'stats'];
+      allow write: if isAdmin() && col in ['places', 'denominations', 'stats'];
+    }
+  }
+}

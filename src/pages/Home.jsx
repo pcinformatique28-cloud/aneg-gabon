@@ -1,12 +1,13 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { CHURCHES, COMMUNES } from '../data/churches'
+import { useChurches } from '../hooks/useChurches'
 import ChurchCard from '../components/ChurchCard'
 import { IconSearch, IconChurch, IconPin, IconCalendar } from '../components/Icons'
 
 const LOGO = `${import.meta.env.BASE_URL}aneg-logo.png`
 
 export default function Home() {
+  const { churches } = useChurches()
   const [q, setQ] = useState('')
   const navigate = useNavigate()
   const chercher = (e) => {
@@ -26,16 +27,16 @@ export default function Home() {
           type="search"
           value={q}
           onChange={(e) => setQ(e.target.value)}
-          placeholder="Église, quartier, dénomination…"
+          placeholder="Rechercher une église…"
           aria-label="Rechercher une église"
         />
         <button className="btn success" type="submit">Chercher</button>
       </form>
 
       <div className="stats-row">
-        <div><b>{CHURCHES.length}</b><span>lieux de culte</span></div>
-        <div><b>{COMMUNES.length}</b><span>communes</span></div>
-        <div><b>{new Set(CHURCHES.map((c) => c.denomination)).size}</b><span>dénominations</span></div>
+        <div><b>{churches.length}</b><span>lieux de culte</span></div>
+        <div><b>{new Set(churches.map((c) => c.commune).filter(Boolean)).size}</b><span>communes</span></div>
+        <div><b>{new Set(churches.map((c) => c.denomination)).size}</b><span>dénominations</span></div>
       </div>
 
       <div className="tiles">
@@ -47,7 +48,7 @@ export default function Home() {
       <section className="section left">
         <div className="section-head"><h2>À Libreville, Akanda et Owendo</h2><Link to="/annuaire">Tout voir</Link></div>
         <div className="list">
-          {CHURCHES.slice(0, 4).map((c) => <ChurchCard key={c.id} church={c} />)}
+          {churches.slice(0, 4).map((c) => <ChurchCard key={c.id} church={c} />)}
         </div>
       </section>
     </div>

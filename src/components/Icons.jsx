@@ -118,3 +118,58 @@ export const IconLocate = (p) => (
     <path d="M12 2v3M12 19v3M2 12h3M19 12h3" />
   </Svg>
 )
+
+export const IconShield = (p) => (
+  <Svg {...p}>
+    <path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z" />
+    <path d="M9 12l2 2 4-4" />
+  </Svg>
+)
+export const IconCheck = (p) => (
+  <Svg {...p}>
+    <path d="M5 12.5l4.5 4.5L19 7.5" />
+  </Svg>
+)
+export const IconEdit = (p) => (
+  <Svg {...p}>
+    <path d="M4 20h4L19 9l-4-4L4 16z" />
+    <path d="M13.5 6.5l4 4" />
+  </Svg>
+)
+export const IconTrash = (p) => (
+  <Svg {...p}>
+    <path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3" />
+  </Svg>
+)
+export const IconPaperclip = (p) => (
+  <Svg {...p}>
+    <path d="M20 11l-8.5 8.5a5 5 0 01-7-7L13 4a3.5 3.5 0 015 5l-8.5 8.5a2 2 0 01-3-3L14 7" />
+  </Svg>
+)
+export const IconArchive = (p) => (
+  <Svg {...p}>
+    <rect x="3" y="4" width="18" height="4" rx="1" />
+    <path d="M5 8v11h14V8M10 12h4" />
+  </Svg>
+)
+export const IconPlus = (p) => (
+  <Svg {...p}>
+    <path d="M12 5v14M5 12h14" />
+  </Svg>
+)
+export const IconDownload = (p) => (
+  <Svg {...p}>
+    <path d="M12 4v11M7 11l5 5 5-5M5 20h14" />
+  </Svg>
+)
+export const IconFile = (p) => (
+  <Svg {...p}>
+    <path d="M6 3h8l5 5v13H6z" />
+    <path d="M14 3v5h5M9 13h6M9 17h6" />
+  </Svg>
+)
+export const IconX = (p) => (
+  <Svg {...p}>
+    <path d="M6 6l12 12M18 6L6 18" />
+  </Svg>
+)

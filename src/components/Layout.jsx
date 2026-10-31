@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext'
 import { avatarUrl } from '../cloudinary'
 import {
   IconMenu, IconClose, IconUser, IconHome, IconSearch, IconPin, IconCalendar,
-  IconChurch, IconLogout, IconLogin, IconInfo, IconChart,
+  IconChurch, IconLogout, IconLogin, IconInfo, IconChart, IconShield,
 } from './Icons'
 
 const LOGO = `${import.meta.env.BASE_URL}aneg-logo.png`
@@ -27,7 +27,7 @@ function Avatar({ size = 36 }) {
 
 export default function Layout() {
   const [open, setOpen] = useState(false)
-  const { user, nom, role, logout } = useAuth()
+  const { user, nom, role, logout, isAdmin } = useAuth()
   const { pathname } = useLocation()
   const navigate = useNavigate()
 
@@ -53,13 +53,20 @@ export default function Layout() {
             <img src={LOGO} alt="" width="40" height="40" />
             <span>ANEG</span>
           </Link>
-          <Link
-            to={user ? '/profil' : '/connexion'}
-            className={`icon-btn account ${user ? 'has-user' : ''}`}
-            aria-label={user ? 'Mon profil' : 'Se connecter'}
-          >
-            <Avatar size={38} />
-          </Link>
+          <div className="right-cluster">
+            {isAdmin && (
+              <Link to="/admin" className="icon-btn admin-btn" aria-label="Administration" title="Administration">
+                <IconShield size={24} />
+              </Link>
+            )}
+            <Link
+              to={user ? '/profil' : '/connexion'}
+              className={`icon-btn account ${user ? 'has-user' : ''}`}
+              aria-label={user ? 'Mon profil' : 'Se connecter'}
+            >
+              <Avatar size={38} />
+            </Link>
+          </div>
         </div>
       </header>
 
@@ -93,6 +100,8 @@ export default function Layout() {
           <NavLink to="/statistiques"><IconChart /> Statistiques</NavLink>
           <NavLink to="/a-propos"><IconInfo /> À propos</NavLink>
           <NavLink to="/profil"><IconUser /> Mon profil</NavLink>
+          <NavLink to="/inscrire-eglise"><IconChurch /> Inscrire / gérer mon église</NavLink>
+          {isAdmin && <NavLink to="/admin" className="admin-link"><IconShield /> Administration</NavLink>}
         </nav>
 
         {user && (

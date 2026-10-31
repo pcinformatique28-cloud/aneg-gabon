@@ -2,7 +2,7 @@ import { useRef, useState } from 'react'
 import { Link, Navigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { uploadImage, avatarUrl } from '../cloudinary'
-import { IconCamera, IconLogout, IconUser } from '../components/Icons'
+import { IconCamera, IconChurch, IconLogout, IconShield, IconUser } from '../components/Icons'
 
 const ROLES = {
   utilisateur: 'Utilisateur',
@@ -13,10 +13,11 @@ const ROLES = {
 }
 
 export default function Profile() {
-  const { user, loading, nom, role, photo, setPhoto, logout } = useAuth()
+  const { user, loading, nom, role, photo, setPhoto, logout, isAdmin, adminEmail, emailVerified, sendVerification, refreshUser } = useAuth()
   const input = useRef(null)
   const [busy, setBusy] = useState(false)
   const [err, setErr] = useState('')
+  const [info, setInfo] = useState('')
 
   if (loading) return <p className="muted">Chargement…</p>
   if (!user) {
@@ -59,7 +60,18 @@ export default function Profile() {
       <h1 className="h1">{nom || 'Mon compte'}</h1>
       <p className="muted">{user.email}</p>
       <span className="tag denom">{ROLES[role] || role}</span>
-      {!user.emailVerified && <p className="hint">Adresse e-mail non vérifiée.</p>}
+      {!emailVerified && (
+        <div className="panel wide">
+          <p>{adminEmail ? 'Adresse administrateur non vérifiée : l’accès à l’administration est bloqué tant que le lien reçu par e-mail n’a pas été ouvert.' : 'Adresse e-mail non vérifiée.'}</p>
+          <div className="btn-row">
+            <button className="btn ghost" onClick={async () => { try { await sendVerification(); setInfo('Lien envoyé. Vérifie ta boîte e-mail.') } catch (e) { setErr(e.message) } }}>Renvoyer le lien</button>
+            <button className="btn primary" onClick={refreshUser}>J’ai vérifié, actualiser</button>
+          </div>
+          {info && <p className="ok">{info}</p>}
+        </div>
+      )}
+      {isAdmin && <Link className="btn primary block" to="/admin"><IconShield size={20} /> Espace administration</Link>}
+      <Link className="btn ghost block" to="/inscrire-eglise"><IconChurch size={20} /> Inscrire / gérer mon église</Link>
 
       <button className="btn ghost" onClick={logout}><IconLogout size={18} /> Se déconnecter</button>
     </div>
