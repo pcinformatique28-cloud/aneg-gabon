@@ -230,3 +230,6 @@ html{hyphens:auto}
 .thumb-ph{display:inline-flex;align-items:center;justify-content:center;background:#e8eefb;overflow:hidden}
 .thumb-ph svg{width:68%;height:68%;fill:#7f93bd}
 .minister{text-align:left}
+.pf-card-head{text-align:left}
+.stack.center>.panel.wide{width:100%}
+.stack.center .minister,.stack.center .dl{text-align:left}

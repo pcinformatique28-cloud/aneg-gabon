@@ -5,6 +5,9 @@ import { fetchChurch } from '../services/store'
 import { uploadImage, avatarUrl } from '../cloudinary'
 import { STATUTS } from '../data/refs'
 import Gallery from '../components/Gallery'
+import QrCode from '../components/QrCode'
+import { Rich } from './ChurchDetail'
+import { codeEglise, appUrl } from '../utils/ids'
 import { IconCamera, IconChurch, IconLogout, IconShield, IconUser } from '../components/Icons'
 
 const ROLES = {
@@ -124,6 +127,7 @@ export default function Profile() {
       {isAdmin && <Link className="btn primary block" to="/admin"><IconShield size={20} /> Espace administration</Link>}
 
       {chReady && (church ? (
+        <>
         <section className="pf-card">
           <div className="pf-card-head">
             {church.logoUrl ? <img src={avatarUrl(church.logoUrl, 96)} alt="" /> : <IconChurch size={28} />}
@@ -137,6 +141,19 @@ export default function Profile() {
             {rows.map(([k, v]) => <div key={k}><dt>{k}</dt><dd>{v}</dd></div>)}
           </dl>
         </section>
+        <section className="panel wide id-panel">
+          <h2>Identité ANEG</h2>
+          <div className="id-row">
+            <div className="id-qr"><QrCode url={appUrl(`eglise/${church.id}`)} title={church.nomOfficiel || 'Église'} code={codeEglise(church.id)} canExpand size={150} /></div>
+            <p className="hint">Touchez le QR pour l’agrandir et l’imprimer (A6, A5, A4, PNG, SVG). Les visiteurs le scannent avec l’appareil photo.</p>
+          </div>
+          <div className="btn-row">
+            <Link className="btn primary" to={`/eglise/${church.id}`}>Voir ma fiche publique</Link>
+            <Link className="btn ghost" to={`/eglise/${church.id}/calendrier`}>Calendrier annuel</Link>
+          </div>
+        </section>
+        <Rich c={church} />
+        </>
       ) : (
         <Link className="btn ghost block" to="/inscrire-eglise"><IconChurch size={20} /> Inscrire mon église</Link>
       ))}
