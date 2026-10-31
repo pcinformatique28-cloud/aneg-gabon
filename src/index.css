@@ -404,3 +404,15 @@ input[type="file"].inp { padding: 10px; min-height: 0; }
 /* page Carte : titre et bouton centres */
 h1.h1:has(+ .map-actions){text-align:center}
 .map-actions>.btn{display:flex;width:fit-content;margin-left:auto;margin-right:auto;justify-content:center}
+
+/* guide par profil */
+.hg-tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:4px 0 12px}
+.hg-tab{border:2px solid;border-radius:14px;padding:10px 6px;font-weight:700;font-size:.9rem;background:#f4f1ee;cursor:pointer;font-family:inherit}
+.hg-tab.blue{color:#2563eb;border-color:#2563eb}.hg-tab.green{color:#0a7a3e;border-color:#0a7a3e}
+.hg-tab.orange{color:#e8590c;border-color:#e8590c}.hg-tab.purple{color:#7c3aed;border-color:#7c3aed}
+.hg-tab.on.blue{background:#2563eb;color:#fff}.hg-tab.on.green{background:#0a7a3e;color:#fff}
+.hg-tab.on.orange{background:#e8590c;color:#fff}.hg-tab.on.purple{background:#7c3aed;color:#fff}
+.hg-body{border-top:1px solid #ddd;padding-top:10px}
+.hg-intro{font-style:italic;margin:6px 0}
+.hg-body h3{color:#2563eb;margin:14px 0 4px}
+.fh-modal{max-width:480px}
