@@ -1,3 +1,4 @@
+import ReportPanel from '../components/ReportPanel'
 import { useEffect, useMemo, useState } from 'react'
 import { useChurches } from '../hooks/useChurches'
 import { fetchPublicChurches, fetchEvents } from '../services/store'
@@ -70,7 +71,7 @@ function VBars({ values, labels }) {
   )
 }
 
-export default function Stats() {
+function StatsBase() {
   const { churches } = useChurches()
   const [reg, setReg] = useState([])
   const [events, setEvents] = useState([])
@@ -173,5 +174,14 @@ export default function Stats() {
 
       <p className="hint">Chiffres calculés en direct à partir de {churches.length} lieux de culte, dont {reg.length} fiche{reg.length > 1 ? 's' : ''} d’église inscrite{reg.length > 1 ? 's' : ''}. Les effectifs, paroisses et ministres sont ceux déclarés par les églises.</p>
     </div>
+  )
+}
+
+export default function Stats() {
+  return (
+    <>
+      <StatsBase />
+      <div className="stack"><ReportPanel /></div>
+    </>
   )
 }
