@@ -3,6 +3,7 @@ import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-do
 import { useAuth } from '../context/AuthContext'
 import { avatarUrl } from '../cloudinary'
 import Bell from './Bell'
+import FloatingHelp from './FloatingHelp'
 import { useAlerts } from '../hooks/useAlerts'
 import { buildSources } from '../services/alertSources'
 import { initFx, ring, setBadge } from '../utils/alertFx'
@@ -86,6 +87,7 @@ export default function Layout() {
         </div>
       </header>
 
+      <FloatingHelp />
       <div className={`scrim ${open ? 'show' : ''}`} onClick={() => setOpen(false)} aria-hidden="true" />
       <aside className={`drawer ${open ? 'open' : ''}`} aria-hidden={!open} aria-label="Menu latéral">
         <div className="drawer-head">

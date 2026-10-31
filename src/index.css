@@ -416,3 +416,15 @@ h1.h1:has(+ .map-actions){text-align:center}
 .hg-intro{font-style:italic;margin:6px 0}
 .hg-body h3{color:#2563eb;margin:14px 0 4px}
 .fh-modal{max-width:480px}
+
+/* pastilles flottantes */
+.fh-pill{position:fixed;z-index:45;display:flex;align-items:center;border-radius:999px;background:#009e60;color:#fff;box-shadow:0 4px 14px rgba(0,0,0,.35);overflow:hidden}
+.fh-pill .fh-main{border:0;background:none;color:#fff;font-weight:700;font-size:.95rem;padding:10px 4px 10px 16px;cursor:pointer;font-family:inherit}
+.fh-pill .fh-x{border:0;background:none;color:#fff;font-size:1.4rem;line-height:1;padding:6px 12px 6px 6px;cursor:pointer}
+.fh-install{top:84px;right:10px;background:#0b5ed7}
+.fh-help{bottom:84px;left:50%;transform:translateX(-50%);white-space:nowrap}
+.fh-overlay{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;padding:16px}
+.fh-modal{position:relative;background:#fff;color:#1b2b4a;border-radius:16px;padding:20px;width:100%;max-height:80vh;overflow:auto}
+.fh-modal h2{margin:0 28px 10px 0;font-size:1.2rem;color:#003087}
+.fh-modal ul{margin:0;padding-left:20px;line-height:1.5}
+.fh-close{position:absolute;top:8px;right:10px;border:0;background:none;font-size:1.8rem;line-height:1;cursor:pointer;color:#555}
