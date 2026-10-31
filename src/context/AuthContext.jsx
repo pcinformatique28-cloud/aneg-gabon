@@ -90,6 +90,22 @@ export function AuthProvider({ children }) {
     setProfile((p) => ({ ...(p || {}), photoURL: url }))
   }, [])
 
+  const setNom = useCallback(async (nouveau) => {
+    await updateProfile(auth.currentUser, { displayName: nouveau })
+    try {
+      await updateDoc(doc(db, 'users', auth.currentUser.uid), { nom: nouveau })
+    } catch (err) {
+      console.warn('Nom non enregistré dans Firestore :', err.code || err.message)
+    }
+    setProfile((p) => ({ ...(p || {}), nom: nouveau }))
+  }, [])
+
+  // Galerie personnelle : liste d’URL (50 maximum) dans users/{uid}.gallery
+  const setGallery = useCallback(async (list) => {
+    await updateDoc(doc(db, 'users', auth.currentUser.uid), { gallery: list.slice(0, 50) })
+    setProfile((p) => ({ ...(p || {}), gallery: list.slice(0, 50) }))
+  }, [])
+
   const value = useMemo(() => {
     const email = (user?.email || '').toLowerCase()
     const adminEmail = email === ADMIN_EMAIL
@@ -111,9 +127,11 @@ export function AuthProvider({ children }) {
       sendVerification,
       refreshUser,
       setPhoto,
+      setNom,
+      setGallery,
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user, profile, loading, version, register, login, logout, resetPassword, sendVerification, refreshUser, setPhoto])
+  }, [user, profile, loading, version, register, login, logout, resetPassword, sendVerification, refreshUser, setPhoto, setNom, setGallery])
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }

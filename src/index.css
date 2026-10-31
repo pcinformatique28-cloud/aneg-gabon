@@ -275,3 +275,28 @@ input[type="file"].inp { padding: 10px; min-height: 0; }
 .sb-kind { font-size: .7rem; text-transform: uppercase; letter-spacing: .04em; color: #0a5bd6; font-weight: 700; }
 .sb-list { max-height: 34vh; }
 .sb-wrap { z-index: 60; }
+
+/* Profil : nom, fiche église, galerie */
+.pf-name { display: flex; align-items: center; justify-content: center; gap: 8px; }
+.pf-pen { display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 38px; flex: none; border: 1px solid #d6dff0; border-radius: 50%; background: #fff; color: #0a3a8a; cursor: pointer; }
+.pf-edit { display: flex; gap: 8px; width: 100%; align-items: center; }
+.pf-edit .inp { flex: 1; min-width: 0; }
+.pf-card { width: 100%; text-align: left; background: #fff; border: 1px solid #d6dff0; border-radius: 18px; padding: 14px; }
+.pf-card-head { display: flex; align-items: center; gap: 12px; }
+.pf-card-head > div { flex: 1; min-width: 0; }
+.pf-card-head h2 { margin: 0; font-size: 1.05rem; color: #0a2a6b; }
+.pf-card-head img { width: 48px; height: 48px; border-radius: 12px; object-fit: cover; }
+.pf-rows { margin: 12px 0 0; display: grid; gap: 8px; }
+.pf-rows div { display: flex; justify-content: space-between; gap: 12px; border-top: 1px solid #eef2fa; padding-top: 8px; }
+.pf-rows dt { color: #5b6b8c; }
+.pf-rows dd { margin: 0; font-weight: 600; color: #0a2a6b; text-align: right; }
+.gal { width: 100%; text-align: left; display: grid; gap: 10px; }
+.gal-head { display: flex; justify-content: space-between; align-items: baseline; }
+.gal-head h2 { margin: 0; }
+.gal-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.gal-item { position: relative; padding: 0; border: 0; border-radius: 12px; overflow: hidden; aspect-ratio: 1; background: #e5ecf8; cursor: pointer; }
+.gal-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.gal-item i { position: absolute; left: 6px; bottom: 6px; font-style: normal; font-size: .7rem; font-weight: 700; background: #f5c400; color: #0a2a6b; padding: 2px 8px; border-radius: 999px; }
+.gal-view { position: fixed; inset: 0; z-index: 200; background: rgba(0, 10, 40, .92); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; padding: 16px; }
+.gal-view img { max-width: 100%; max-height: 62vh; border-radius: 14px; object-fit: contain; }
+.gal-actions { display: grid; gap: 8px; width: 100%; max-width: 420px; }
