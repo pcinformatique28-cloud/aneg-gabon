@@ -59,3 +59,17 @@ export async function fetchFormats() {
 
 export const addFormat = (data) => addDoc(collection(db, 'formats'), { ...data, createdAt: serverTimestamp() })
 export const deleteFormat = (id) => deleteDoc(doc(db, 'formats', id))
+
+// ---------- Événements (agenda) ----------
+export async function fetchEvents(churchId) {
+  const ref = collection(db, 'events')
+  const snap = await getDocs(churchId ? query(ref, where('churchId', '==', churchId)) : ref)
+  return snap.docs.map(withId).sort((a, b) => (a.date || '').localeCompare(b.date || ''))
+}
+
+export const saveEvent = (id, data) =>
+  id
+    ? updateDoc(doc(db, 'events', id), { ...data, updatedAt: serverTimestamp() })
+    : addDoc(collection(db, 'events'), { ...data, createdAt: serverTimestamp() })
+
+export const deleteEvent = (id) => deleteDoc(doc(db, 'events', id))

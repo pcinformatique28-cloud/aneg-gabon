@@ -65,6 +65,21 @@ service cloud.firestore {
       allow write: if isAdmin();
     }
 
+    match /events/{id} {
+      allow read: if true;
+      allow create: if isAdmin()
+                    || (signedIn()
+                        && request.resource.data.ownerUid == request.auth.uid
+                        && request.resource.data.churchId == request.auth.uid
+                        && exists(/databases/$(database)/documents/churches/$(request.auth.uid)));
+      allow update: if isAdmin()
+                    || (signedIn()
+                        && resource.data.ownerUid == request.auth.uid
+                        && request.resource.data.ownerUid == resource.data.ownerUid
+                        && request.resource.data.churchId == resource.data.churchId);
+      allow delete: if isAdmin() || (signedIn() && resource.data.ownerUid == request.auth.uid);
+    }
+
     match /{col}/{id} {
       allow read: if col in ['places', 'denominations', 'stats'];
       allow write: if isAdmin() && col in ['places', 'denominations', 'stats'];

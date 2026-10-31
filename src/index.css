@@ -300,3 +300,33 @@ input[type="file"].inp { padding: 10px; min-height: 0; }
 .gal-view { position: fixed; inset: 0; z-index: 200; background: rgba(0, 10, 40, .92); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; padding: 16px; }
 .gal-view img { max-width: 100%; max-height: 62vh; border-radius: 14px; object-fit: contain; }
 .gal-actions { display: grid; gap: 8px; width: 100%; max-width: 420px; }
+
+/* Agenda */
+.ag-tabs { display: flex; gap: 6px; overflow-x: auto; width: 100%; }
+.ag-tab { flex: none; padding: 9px 16px; border-radius: 999px; border: 1px solid #d6dff0; background: #fff; color: #0a3a8a; font: inherit; font-weight: 600; cursor: pointer; }
+.ag-tab.on { background: #0a3a8a; color: #fff; border-color: #0a3a8a; }
+.ag-year { display: flex; align-items: center; justify-content: center; gap: 18px; font-size: 1.3rem; color: #0a2a6b; }
+.ag-year button { width: 40px; height: 40px; border-radius: 50%; border: 1px solid #d6dff0; background: #fff; font-size: 1.4rem; color: #0a3a8a; cursor: pointer; }
+.ag-month h2 { margin: 6px 0 8px; font-size: 1.05rem; color: #0a3a8a; }
+.ag-f { display: grid; gap: 4px; font-weight: 600; color: #0a2a6b; }
+.ag-check { display: flex; align-items: center; gap: 8px; color: #0a2a6b; }
+.ev { display: flex; gap: 10px; background: #fff; border: 1px solid #d6dff0; border-left: 5px solid var(--c, #0a63c9); border-radius: 14px; padding: 10px; text-align: left; }
+.ev.fete { --c: #f5c400; background: #fff8dc; border-color: #f0dc8a; }
+.ev-day { display: grid; place-items: center; min-width: 44px; text-align: center; color: #0a2a6b; line-height: 1.1; }
+.ev-day b { font-size: 1.3rem; }
+.ev-day small { text-transform: uppercase; font-size: .65rem; color: #5b6b8c; }
+.ev-body { flex: 1; min-width: 0; display: grid; gap: 2px; }
+.ev-desc { margin: 4px 0 0; color: #33415f; font-size: .92rem; }
+.ev-church { font-size: .8rem; font-weight: 600; color: #0a5bd6; }
+.ev-act { display: grid; gap: 6px; align-content: start; }
+.ev-act button { width: 34px; height: 34px; border-radius: 50%; border: 1px solid #d6dff0; background: #fff; cursor: pointer; color: #0a3a8a; }
+.tl-wrap { width: 100%; overflow-x: auto; border: 1px solid #d6dff0; border-radius: 14px; background: #fff; }
+.tl { border-collapse: separate; border-spacing: 0; min-width: 1500px; font-size: .78rem; }
+.tl th, .tl td { border-bottom: 1px solid #eef2fa; border-right: 1px solid #eef2fa; padding: 6px; vertical-align: top; text-align: left; min-width: 118px; }
+.tl thead th { background: #0a3a8a; color: #fff; position: sticky; top: 0; }
+.tl tbody th { position: sticky; left: 0; background: #fff; z-index: 2; min-width: 130px; color: #0a2a6b; }
+.tl thead th:first-child { left: 0; z-index: 3; min-width: 130px; }
+.tl tbody th i { display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: var(--c); margin-right: 6px; }
+.tl-fete td, .tl-fete th { background: #fff8dc !important; }
+.chip { display: block; width: 100%; margin: 0 0 4px; padding: 4px 7px; border: 0; border-radius: 8px; color: #fff; font: inherit; font-size: .74rem; text-align: left; cursor: pointer; }
+.chip.fete { background: #f5c400; color: #0a2a6b; font-weight: 700; cursor: default; }

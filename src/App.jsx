@@ -8,7 +8,9 @@ import Login from './pages/Login'
 import Profile from './pages/Profile'
 import ChurchForm from './pages/ChurchForm'
 import Admin from './pages/Admin'
-import { Agenda, Stats, About } from './pages/Simple'
+import Agenda from './pages/Agenda'
+import ChurchCalendar from './pages/ChurchCalendar'
+import { Stats, About } from './pages/Simple'
 
 export default function App() {
   return (
@@ -19,6 +21,7 @@ export default function App() {
         <Route path="eglise/:id" element={<ChurchDetail />} />
         <Route path="carte" element={<MapPage />} />
         <Route path="agenda" element={<Agenda />} />
+        <Route path="eglise/:id/calendrier" element={<ChurchCalendar />} />
         <Route path="statistiques" element={<Stats />} />
         <Route path="a-propos" element={<About />} />
         <Route path="connexion" element={<Login />} />
