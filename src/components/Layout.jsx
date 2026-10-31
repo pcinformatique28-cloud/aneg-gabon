@@ -61,6 +61,9 @@ export default function Layout() {
           <button className="icon-btn" onClick={() => setOpen(true)} aria-label="Ouvrir le menu" aria-expanded={open}>
             <IconMenu size={26} />
           </button>
+          <Link to="/annuaire" className="icon-btn" aria-label="Rechercher une église" title="Rechercher">
+            <IconSearch size={24} />
+          </Link>
           <Link to="/" className="brand" aria-label="ANEG, accueil">
             <img src={LOGO} alt="" width="40" height="40" />
             <span>ANEG</span>
