@@ -400,3 +400,7 @@ input[type="file"].inp { padding: 10px; min-height: 0; }
 
 /* nom ANEG stylise */
 .topbar .brand span{font-family:"Montserrat","Segoe UI",sans-serif;font-weight:800;font-size:1.55rem;letter-spacing:.14em;background:linear-gradient(90deg,#fff 0%,#fff 45%,#fcd116 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;text-shadow:none;filter:drop-shadow(0 2px 3px rgba(0,0,0,.35))}
+
+/* page Carte : titre et bouton centres */
+h1.h1:has(+ .map-actions){text-align:center}
+.map-actions>.btn{display:flex;width:fit-content;margin-left:auto;margin-right:auto;justify-content:center}
