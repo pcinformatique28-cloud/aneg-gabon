@@ -28,7 +28,7 @@ export default function SearchBox({ value, onChange, onSubmit, churches, button 
           onChange={(e) => { onChange(e.target.value); setOpen(true) }}
           onFocus={() => setOpen(true)}
           onBlur={() => setOpen(false)}
-          placeholder="Nom, quartier, commune, dénomination…"
+          placeholder="Rechercher une église…"
           aria-label="Rechercher une église"
           autoComplete="off"
         />
