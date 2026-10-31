@@ -190,6 +190,7 @@ export default function ChurchDetail() {
         {!seed && remote.denomination && <span className="tag">{remote.denomination}</span>}
         <span className="tag">{statut}</span>
       </div>
+      {!seed && <Link className="btn primary block" to={`/eglise/${id}/calendrier`}>Voir le calendrier annuel de cette église</Link>}
       {seed ? <Seed c={seed} /> : <Rich c={remote} />}
     </div>
   )
