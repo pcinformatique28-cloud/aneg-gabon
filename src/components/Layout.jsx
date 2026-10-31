@@ -66,7 +66,7 @@ export default function Layout() {
             <span>ANEG</span>
           </Link>
           <div className="right-cluster">
-            {user && <Bell a={alerts} />}
+            <Bell a={alerts} guest={!user} />
             {isAdmin && (
               <Link to="/admin" className="icon-btn admin-btn" aria-label="Administration" title="Administration">
                 <IconShield size={24} />{nAdmin > 0 && <i className="nav-badge">{nAdmin > 99 ? '99+' : nAdmin}</i>}

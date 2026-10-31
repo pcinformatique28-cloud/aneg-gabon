@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-export default function Bell({ a }) {
+export default function Bell({ a, guest = false }) {
   const [open, setOpen] = useState(false)
   const nav = useNavigate()
   const n = a.unread.length
@@ -30,7 +30,13 @@ export default function Bell({ a }) {
               <b>Notifications</b>
               {n > 0 && <button type="button" onClick={a.markAll}>Tout marquer comme lu</button>}
             </div>
-            {a.items.length === 0 && <p className="bell-empty">Rien de nouveau.</p>}
+            {guest && (
+              <div className="bell-empty">
+                Connecte-toi pour recevoir tes notifications.
+                <button type="button" className="btn primary block" style={{ marginTop: 10 }} onClick={() => { setOpen(false); nav('/connexion') }}>Se connecter</button>
+              </div>
+            )}
+            {!guest && a.items.length === 0 && <p className="bell-empty">Rien de nouveau.</p>}
             {a.items.map((x) => (
               <button type="button" key={x.id} className={'bell-item' + (unreadIds.has(x.id) ? ' unread' : '')} onClick={() => go(x)}>
                 {x.title}
