@@ -385,3 +385,9 @@ input[type="file"].inp { padding: 10px; min-height: 0; }
 /* 2) Barre de recherche : elle passait au-dessus du menu lateral (z-index 60 > 50).
       Elle reste au-dessus du contenu mais sous l'en-tete, le voile et le menu. */
 .sb-wrap { position: relative; z-index: 10; }
+
+
+/* --- En-tête fixe --- */
+/* 'sticky' cesse de fonctionner dès qu'un parent coupe le défilement ; 'fixed' reste en place. */
+.topbar { position: fixed; top: 0; left: 0; right: 0; z-index: 30; }
+.shell { padding-top: calc(var(--top-h, 64px) + 5px); }
