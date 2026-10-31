@@ -30,7 +30,7 @@ service cloud.firestore {
       allow get: if isAdmin()
                  || (signedIn() && churchId == request.auth.uid)
                  || resource.data.visible == true;
-      allow list: if isAdmin() || isMod() || resource.data.visible == true;
+      allow list: if isAdmin() || resource.data.visible == true;
 
       allow create: if signedIn()
                     && churchId == request.auth.uid

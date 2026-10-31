@@ -6,7 +6,7 @@ import ChurchCard from '../components/ChurchCard'
 import { IconSearch } from '../components/Icons'
 
 export default function Directory() {
-  const { churches, loading } = useChurches()
+  const { churches, loading, error } = useChurches()
   const [params, setParams] = useSearchParams()
   const q = params.get('q') || ''
   const commune = params.get('commune') || ''
@@ -51,6 +51,7 @@ export default function Directory() {
       </div>
 
       <p className="muted">{loading ? 'Chargement…' : `${resultats.length} résultat${resultats.length > 1 ? 's' : ''}`}</p>
+      {error && <p className="empty">Lecture des fiches impossible : {error}</p>}
       <div className="list">
         {resultats.map((c) => <ChurchCard key={c.id} church={c} />)}
         {!loading && !resultats.length && <p className="empty">Aucune église ne correspond à cette recherche.</p>}

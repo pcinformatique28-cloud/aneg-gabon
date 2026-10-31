@@ -26,16 +26,20 @@ export function toCard(c) {
 export function useChurches() {
   const [remote, setRemote] = useState([])
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
 
   useEffect(() => {
     let off = false
     fetchPublicChurches()
       .then((list) => !off && setRemote(list.map(toCard)))
-      .catch((e) => console.warn('Fiches non lues :', e.code || e.message))
+      .catch((e) => {
+        console.warn('Fiches non lues :', e.code || e.message)
+        if (!off) setError(e.code || e.message)
+      })
       .finally(() => !off && setLoading(false))
     return () => { off = true }
   }, [])
 
   const churches = useMemo(() => [...remote, ...CHURCHES], [remote])
-  return { churches, loading, remoteCount: remote.length }
+  return { churches, loading, error, remoteCount: remote.length }
 }
