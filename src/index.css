@@ -273,3 +273,5 @@ input[type="file"].inp { padding: 10px; min-height: 0; }
 .sb-item:active, .sb-item:hover { background: #eaf1ff; }
 .sb-item small { color: #5b6b8c; }
 .sb-kind { font-size: .7rem; text-transform: uppercase; letter-spacing: .04em; color: #0a5bd6; font-weight: 700; }
+.sb-list { max-height: 34vh; }
+.sb-wrap { z-index: 60; }

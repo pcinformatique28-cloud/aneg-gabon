@@ -21,7 +21,7 @@ export default function SearchBox({ value, onChange, onSubmit, churches, button 
         role="search"
         onSubmit={(e) => { e.preventDefault(); setOpen(false); onSubmit?.() }}
       >
-        <IconSearch size={20} />
+        {!button && <IconSearch size={20} />}
         <input
           type="search"
           value={value}
@@ -32,7 +32,7 @@ export default function SearchBox({ value, onChange, onSubmit, churches, button 
           aria-label="Rechercher une église"
           autoComplete="off"
         />
-        {button && <button className="btn success" type="submit">Chercher</button>}
+        {button && <button className="btn success" type="submit" aria-label="Chercher"><IconSearch size={22} /></button>}
       </form>
       {list.length > 0 && (
         <ul className="sb-list" role="listbox">
