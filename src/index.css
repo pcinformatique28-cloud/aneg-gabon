@@ -356,3 +356,21 @@ input[type="file"].inp { padding: 10px; min-height: 0; }
 .vb-col b { height: 14px; color: #0a2a6b; }
 .vb-bar { flex: 1; width: 100%; display: flex; align-items: flex-end; }
 .vb-bar i { width: 100%; background: #0a63c9; border-radius: 6px 6px 0 0; min-height: 2px; }
+
+
+/* --- Notifications : cloche et pastilles --- */
+.bell-wrap{position:relative}
+.bell-btn{position:relative;color:#fff}
+.bell-btn svg{width:26px;height:26px}
+.admin-btn{position:relative}
+.nav-ico{position:relative;display:inline-flex;font-style:normal}
+.nav-badge{position:absolute;top:-4px;right:-7px;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:#d92d20;color:#fff;font:700 11px/18px system-ui,sans-serif;font-style:normal;text-align:center;box-shadow:0 0 0 2px #fff;pointer-events:none}
+.bell-btn .nav-badge,.admin-btn .nav-badge{box-shadow:0 0 0 2px #00317d}
+.bell-scrim{position:fixed;inset:0;z-index:69;background:transparent;border:0}
+.bell-panel{position:fixed;top:72px;right:8px;z-index:70;width:320px;max-width:94vw;max-height:70vh;overflow-y:auto;background:#fff;color:#0b1b3a;border-radius:14px;box-shadow:0 12px 32px rgba(0,0,0,.28);padding:8px}
+.bell-head{display:flex;justify-content:space-between;align-items:center;padding:6px 8px 8px;font-size:14px}
+.bell-head button{background:none;border:0;color:#0a5fd0;text-decoration:underline;font-size:13px;cursor:pointer}
+.bell-item{display:block;width:100%;text-align:left;border:0;background:transparent;border-radius:10px;padding:10px;font-size:14px;color:inherit;cursor:pointer}
+.bell-item.unread{background:#e9f1ff;font-weight:700}
+.bell-item small{display:block;font-weight:400;opacity:.75;font-size:12px;margin-top:2px}
+.bell-empty{padding:16px 8px;opacity:.7;font-size:14px;margin:0}

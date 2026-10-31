@@ -2,6 +2,10 @@ import { useEffect, useState } from 'react'
 import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { avatarUrl } from '../cloudinary'
+import Bell from './Bell'
+import { useAlerts } from '../hooks/useAlerts'
+import { buildSources } from '../services/alertSources'
+import { initFx, ring, setBadge } from '../utils/alertFx'
 import {
   IconMenu, IconClose, IconUser, IconHome, IconSearch, IconPin, IconCalendar,
   IconChurch, IconLogout, IconLogin, IconInfo, IconChart, IconShield,
@@ -31,6 +35,12 @@ export default function Layout() {
   const { pathname } = useLocation()
   const navigate = useNavigate()
 
+  useEffect(() => { initFx(`${import.meta.env.BASE_URL}sounds/notif.wav`) }, [])
+  const alerts = useAlerts(user ? `${user.uid}:${isAdmin ? 'a' : 'u'}` : '', () => buildSources(user.uid, isAdmin), ring)
+  const nAlerts = alerts.unread.length
+  const nAdmin = alerts.unread.filter((x) => x.link === '/admin').length
+  useEffect(() => { setBadge(nAlerts) }, [nAlerts])
+
   useEffect(() => { setOpen(false); window.scrollTo(0, 0) }, [pathname])
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : ''
@@ -54,9 +64,10 @@ export default function Layout() {
             <span>ANEG</span>
           </Link>
           <div className="right-cluster">
+            {user && <Bell a={alerts} />}
             {isAdmin && (
               <Link to="/admin" className="icon-btn admin-btn" aria-label="Administration" title="Administration">
-                <IconShield size={24} />
+                <IconShield size={24} />{nAdmin > 0 && <i className="nav-badge">{nAdmin > 99 ? '99+' : nAdmin}</i>}
               </Link>
             )}
             <Link
@@ -117,7 +128,7 @@ export default function Layout() {
       <nav className="bottom-nav" aria-label="Navigation principale">
         {BOTTOM.map(({ to, label, Icon, end }) => (
           <NavLink key={to} to={to} end={end}>
-            <Icon size={24} />
+            <em className="nav-ico"><Icon size={24} />{to === '/profil' && nAlerts > 0 && <i className="nav-badge">{nAlerts > 99 ? '99+' : nAlerts}</i>}</em>
             <span>{label}</span>
           </NavLink>
         ))}

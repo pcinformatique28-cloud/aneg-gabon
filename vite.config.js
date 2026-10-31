@@ -4,7 +4,6 @@ import { VitePWA } from 'vite-plugin-pwa'
 
 export default defineConfig({
   base: '/aneg-gabon/',
-  base: '/aneg-gabon/',
   plugins: [
     react(),
     VitePWA({
