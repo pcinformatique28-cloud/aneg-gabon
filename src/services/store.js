@@ -3,6 +3,7 @@ import {
   query, where, serverTimestamp,
 } from 'firebase/firestore'
 import { db } from '../firebase'
+import { pingRelay } from '../utils/push'
 
 const withId = (d) => ({ id: d.id, ...d.data() })
 
@@ -24,8 +25,10 @@ export async function fetchAllChurches() {
 
 export const saveChurch = (id, data) => setDoc(doc(db, 'churches', id), data, { merge: true })
 
-export const adminUpdateChurch = (id, patch) =>
-  updateDoc(doc(db, 'churches', id), { ...patch, updatedAt: serverTimestamp() })
+export const adminUpdateChurch = async (id, patch) => {
+  await updateDoc(doc(db, 'churches', id), { ...patch, updatedAt: serverTimestamp() })
+  if (patch.status && patch.status !== 'en_attente' && patch.verifiedAt) pingRelay('/notify-decision', id)
+}
 
 export async function deleteChurch(id) {
   const docs = await fetchDocuments(id)
@@ -40,15 +43,21 @@ export async function fetchDocuments(churchId) {
   return snap.docs.map(withId).sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0))
 }
 
-export const addDocument = (data) =>
-  addDoc(collection(db, 'documents'), {
+export const addDocument = async (data) => {
+  const ref = await addDoc(collection(db, 'documents'), {
     status: 'depose',
     archived: false,
     ...data,
     createdAt: serverTimestamp(),
   })
+  if (data.depotPar !== 'admin') pingRelay('/notify-doc', ref.id)
+  return ref
+}
 
-export const updateDocument = (id, patch) => updateDoc(doc(db, 'documents', id), patch)
+export const updateDocument = async (id, patch) => {
+  await updateDoc(doc(db, 'documents', id), patch)
+  if (patch.status === 'valide' || patch.status === 'refuse') pingRelay('/notify-doc-decision', id)
+}
 export const deleteDocument = (id) => deleteDoc(doc(db, 'documents', id))
 
 // ---------- Modèles et formats officiels recommandés ----------

@@ -6,6 +6,7 @@ import { fetchChurch, saveChurch } from '../services/store'
 import { uploadImage, avatarUrl } from '../cloudinary'
 import { Area, Block, Chips, Field, Input, Repeater, Select } from '../components/FormBits'
 import AttachDoc from '../components/AttachDoc'
+import { pingRelay } from '../utils/push'
 import { IconLocate, IconCheck } from '../components/Icons'
 import {
   DIPLOMES, FAMILLES, JOURS, LANGUES, NIVEAUX_FORMATION, PRATIQUES, PROVINCES, STATUTS,
@@ -120,6 +121,7 @@ export default function ChurchForm() {
       }
       if (submit && !adminMode) data.submittedAt = serverTimestamp()
       await saveChurch(churchId, data)
+      if (submit && !adminMode) pingRelay('/notify-church', churchId)
       setExisting(await fetchChurch(churchId))
       setMsg(submit ? 'Fiche envoyée.' : 'Brouillon enregistré.')
       return true

@@ -11,6 +11,7 @@ import {
 import { doc, getDoc, setDoc, updateDoc, serverTimestamp } from 'firebase/firestore'
 import { auth, db } from '../firebase'
 import { ADMIN_EMAIL } from '../data/refs'
+import { disablePush } from '../utils/push'
 
 const AuthContext = createContext(null)
 
@@ -68,7 +69,7 @@ export function AuthProvider({ children }) {
   )
 
   const login = useCallback((email, password) => signInWithEmailAndPassword(auth, email, password), [])
-  const logout = useCallback(() => signOut(auth), [])
+  const logout = useCallback(async () => { await disablePush(); return signOut(auth) }, [])
   const resetPassword = useCallback((email) => sendPasswordResetEmail(auth, email), [])
   const sendVerification = useCallback(() => sendEmailVerification(auth.currentUser), [])
 

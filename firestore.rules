@@ -80,6 +80,15 @@ service cloud.firestore {
       allow delete: if isAdmin() || (signedIn() && resource.data.ownerUid == request.auth.uid);
     }
 
+    // Jetons de notification téléphone : chacun gère les siens, personne ne les lit.
+    match /pushTokens/{token} {
+      allow create, update: if signedIn()
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.keys().hasOnly(['uid', 'createdAt']);
+      allow delete: if signedIn() && resource.data.uid == request.auth.uid;
+      allow read: if false;
+    }
+
     match /{col}/{id} {
       allow read: if col in ['places', 'denominations', 'stats'];
       allow write: if isAdmin() && col in ['places', 'denominations', 'stats'];

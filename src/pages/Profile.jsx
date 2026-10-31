@@ -9,6 +9,7 @@ import QrCode from '../components/QrCode'
 import { Rich } from './ChurchDetail'
 import { codeEglise, appUrl } from '../utils/ids'
 import { IconCamera, IconChurch, IconLogout, IconShield, IconUser } from '../components/Icons'
+import PushToggle from '../components/PushToggle'
 
 const ROLES = {
   utilisateur: 'Utilisateur',
@@ -165,6 +166,7 @@ export default function Profile() {
         onPick={setPhoto}
       />
 
+      {user && <PushToggle uid={user.uid} />}
       <button className="btn ghost" onClick={logout}><IconLogout size={18} /> Se déconnecter</button>
     </div>
   )

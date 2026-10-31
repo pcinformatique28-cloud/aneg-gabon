@@ -6,6 +6,7 @@ import Bell from './Bell'
 import { useAlerts } from '../hooks/useAlerts'
 import { buildSources } from '../services/alertSources'
 import { initFx, ring, setBadge } from '../utils/alertFx'
+import { syncPush } from '../utils/push'
 import {
   IconMenu, IconClose, IconUser, IconHome, IconSearch, IconPin, IconCalendar,
   IconChurch, IconLogout, IconLogin, IconInfo, IconChart, IconShield,
@@ -40,6 +41,7 @@ export default function Layout() {
   const nAlerts = alerts.unread.length
   const nAdmin = alerts.unread.filter((x) => x.link === '/admin').length
   useEffect(() => { setBadge(nAlerts) }, [nAlerts])
+  useEffect(() => { if (user) syncPush(user.uid) }, [user])
 
   useEffect(() => { setOpen(false); window.scrollTo(0, 0) }, [pathname])
   useEffect(() => {

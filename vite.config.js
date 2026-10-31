@@ -8,6 +8,7 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
+      workbox: { importScripts: ['push-sw.js'] },
       manifest: {
         name: 'ANEG – Annuaire National des Églises du Gabon',
         short_name: 'ANEG',
