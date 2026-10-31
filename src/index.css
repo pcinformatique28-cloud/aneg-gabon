@@ -374,3 +374,14 @@ input[type="file"].inp { padding: 10px; min-height: 0; }
 .bell-item.unread{background:#e9f1ff;font-weight:700}
 .bell-item small{display:block;font-weight:400;opacity:.75;font-size:12px;margin-top:2px}
 .bell-empty{padding:16px 8px;opacity:.7;font-size:14px;margin:0}
+
+
+/* --- Correctifs interface --- */
+/* 1) Cases du formulaire : la regle .chip du calendrier (texte blanc, pleine largeur)
+      ecrasait celle des cases de selection, d'ou le texte blanc sur fond blanc. */
+.chips .chip { display: inline-block; width: auto; margin: 0; padding: 8px 12px; border: 1.5px solid var(--bord); border-radius: 99px; background: #fff; color: var(--gris); font-size: 14px; font-weight: 600; text-align: center; cursor: pointer; }
+.chips .chip.on { background: var(--bleu); border-color: var(--bleu); color: #fff; }
+
+/* 2) Barre de recherche : elle passait au-dessus du menu lateral (z-index 60 > 50).
+      Elle reste au-dessus du contenu mais sous l'en-tete, le voile et le menu. */
+.sb-wrap { position: relative; z-index: 10; }
